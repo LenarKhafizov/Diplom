@@ -1,16 +1,22 @@
 package ru.iteco.fmhandroid.ui;
 
-
 import static androidx.test.espresso.Espresso.onView;
-import static androidx.test.espresso.action.ViewActions.*;
-import static androidx.test.espresso.assertion.ViewAssertions.*;
-import static androidx.test.espresso.matcher.ViewMatchers.*;
+import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
+import static androidx.test.espresso.action.ViewActions.replaceText;
+import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static org.hamcrest.Matchers.allOf;
 
+//import androidx.test.espresso.IdlingRegistry;
+//import androidx.test.espresso.IdlingResource;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.LargeTest;
 
+//import org.junit.After;
+//import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -25,10 +31,21 @@ public class AppActivityTest {
     public ActivityScenarioRule<AppActivity> mActivityScenarioRule =
             new ActivityScenarioRule<>(AppActivity.class);
 
+//    @Before
+  //  public void setUp() {
+    //    IdlingRegistry.getInstance().register((IdlingResource) EspressoIdlingResources.getIdlingResource());
+   // }
+
+//    @After
+  //  public void tearDown() {
+    //    IdlingRegistry.getInstance().unregister();
+    //}
+
     @Test
-    public void appActivityTest() {
+    public void appActivityTest() throws InterruptedException {
+
         onView(allOf(withId(R.id.login_text_input_layout),
-                        isDisplayed())).perform(click());
+                isDisplayed())).perform(click());
 
         onView(allOf(withId(R.id.login_text_input_layout),isDisplayed())).
                 perform(replaceText("login2"), closeSoftKeyboard());
@@ -37,6 +54,8 @@ public class AppActivityTest {
                 perform(replaceText("password2"), closeSoftKeyboard());
 
         onView(allOf(withId(R.id.enter_button), isDisplayed())).perform(click());
+
+        Thread.sleep(5000); // последняя вставка
 
         onView(allOf(withId(R.id.trademark_image_view),isDisplayed())).
                 check(matches(isDisplayed()));
